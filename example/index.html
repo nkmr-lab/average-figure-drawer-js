@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <title>Simple Average Example (buildless)</title>
+</head>
+
+<body>
+  <h1>Simple Average Example</h1>
+  <p>左右に文字を書いて「平均化」を押すと、真ん中に平均字形が出ます（ビルド不要・素のESM）。</p>
+  <div class="flex-parent">
+    <div>
+      <div class="right">
+        <button type="button" onclick="clearSVG('#drawer1')">クリア</button>
+      </div>
+      <svg id="drawer1" class="canvas write"></svg>
+    </div>
+
+    <p>+</p>
+    <div>
+      <div class="right">
+        <button type="button" onclick="clearSVG('#drawer2')">クリア</button>
+      </div>
+      <svg id="drawer2" class="canvas write"></svg>
+    </div>
+
+    <p>=</p>
+    <div>
+      <div class="right">
+        <button type="button" onclick="clearSVG('all')">全消し</button>
+        <button type="button" onclick="average()">平均化</button>
+      </div>
+      <svg id="averaged" class="canvas average"></svg>
+    </div>
+  </div>
+  <!-- バンドル不要。ライブラリの src を直接 ESM import する -->
+  <script type="module" src="app.js"></script>
+</body>
+
+</html>

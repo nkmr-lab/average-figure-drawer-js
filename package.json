@@ -1,0 +1,20 @@
+{
+  "name": "@nkmr-lab/average-figure-drawer-js",
+  "version": "0.1.0",
+  "description": "ビルド不要・依存ゼロの Vanilla JS(ESM) 版 average-figure-drawer。手書きストローク→DFTで平均字形を生成する。",
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": ["src"],
+  "sideEffects": false,
+  "scripts": {},
+  "dependencies": {},
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nkmr-lab/average-figure-drawer-js.git"
+  }
+}
