@@ -149,15 +149,15 @@ class Figure {
         jsonBuffer[i] = {
           x: {
             real: stroke.DFT.equations.normalized.reX[i],
-            imaginary: stroke.equations.normalized.DFT.imX[i],
+            imaginary: stroke.DFT.equations.normalized.imX[i],
           },
           y: {
             real: stroke.DFT.equations.normalized.reY[i],
-            imaginary: stroke.equations.normalized.DFT.imY[i],
+            imaginary: stroke.DFT.equations.normalized.imY[i],
           },
           z: {
             real: stroke.DFT.equations.normalized.reZ[i],
-            imaginary: stroke.equations.normalized.DFT.imZ[i],
+            imaginary: stroke.DFT.equations.normalized.imZ[i],
           },
         };
       }

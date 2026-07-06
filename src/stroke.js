@@ -345,13 +345,8 @@ class Stroke {
   applyDFT() {
     this.spline.interpolate(this.points);
     this.DFT.findEquation(this.spline.points, this.length());
-
-    // DFTにデータがセットされているか確認
-    if (this.DFT && this.DFT.points && this.DFT.points.length > 0) {
-      if (!this.DFT.isNormalized()) {
-        this.DFT.normalize();
-      }
-    }
+    // 正規化は Figure レベル(figure.normalize → stroke.DFT.normalize(ratio, center))で行う。
+    // ここで引数なし normalize() を呼ぶと centerCoord が undefined になり壊れるため呼ばない。
   }
 
   getLength() {
@@ -476,30 +471,38 @@ class Stroke {
         console.warn("stroke is not normalized;");
       }
     });
+    // 次数の異なるストロークを平均すると、短い方の係数が undefined になり
+    // undefined * proportion = NaN が生じる。欠損係数は 0 として扱う(|| 0)。
     for (let d = 0; d < maximumOrder; d += 1) {
       avgStroke.DFT.equations.normalized.reX[d] = sum(
         strks,
-        (st, i) => st.DFT.equations.normalized.reX[d] * normalizedProportions[i]
+        (st, i) =>
+          (st.DFT.equations.normalized.reX[d] || 0) * normalizedProportions[i]
       );
       avgStroke.DFT.equations.normalized.imX[d] = sum(
         strks,
-        (st, i) => st.DFT.equations.normalized.imX[d] * normalizedProportions[i]
+        (st, i) =>
+          (st.DFT.equations.normalized.imX[d] || 0) * normalizedProportions[i]
       );
       avgStroke.DFT.equations.normalized.reY[d] = sum(
         strks,
-        (st, i) => st.DFT.equations.normalized.reY[d] * normalizedProportions[i]
+        (st, i) =>
+          (st.DFT.equations.normalized.reY[d] || 0) * normalizedProportions[i]
       );
       avgStroke.DFT.equations.normalized.imY[d] = sum(
         strks,
-        (st, i) => st.DFT.equations.normalized.imY[d] * normalizedProportions[i]
+        (st, i) =>
+          (st.DFT.equations.normalized.imY[d] || 0) * normalizedProportions[i]
       );
       avgStroke.DFT.equations.normalized.reZ[d] = sum(
         strks,
-        (st, i) => st.DFT.equations.normalized.reZ[d] * normalizedProportions[i]
+        (st, i) =>
+          (st.DFT.equations.normalized.reZ[d] || 0) * normalizedProportions[i]
       );
       avgStroke.DFT.equations.normalized.imZ[d] = sum(
         strks,
-        (st, i) => st.DFT.equations.normalized.imZ[d] * normalizedProportions[i]
+        (st, i) =>
+          (st.DFT.equations.normalized.imZ[d] || 0) * normalizedProportions[i]
       );
     }
     avgStroke.DFT.equations.normalized.aX = sum(

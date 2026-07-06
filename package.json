@@ -1,6 +1,6 @@
 {
   "name": "@nkmr-lab/average-figure-drawer-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "ビルド不要・依存ゼロの Vanilla JS(ESM) 版 average-figure-drawer。手書きストローク→DFTで平均字形を生成する。",
   "type": "module",
   "main": "src/index.js",

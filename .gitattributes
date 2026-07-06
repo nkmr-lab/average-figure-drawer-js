@@ -1,0 +1,4 @@
+# CDN 配信(git archive)には test/ を含めない
+test/ export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
