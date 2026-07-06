@@ -41,19 +41,16 @@ npx serve .    # もしくは python -m http.server など
 # → http://localhost:XXXX/example/
 ```
 
-## CDN から使う（jsDelivr, ビルド/インストール不要）
+## CDN から使う（cdn.nkmr.io / ビルド・インストール不要）
 
-public リポジトリなので、GitHub のタグを jsDelivr がそのまま配信する。
-CORS・MIME・HTTP/2・キャッシュは jsDelivr 任せで、`import` するだけ:
+中村研の自前 CDN **`cdn.nkmr.io`** がバージョン別に配信している（リポジトリは private のまま、
+配信ファイルだけ HTTPS 公開）。CORS(`Access-Control-Allow-Origin: *`)・MIME(`text/javascript`)
+設定済みなので、`import` するだけで他オリジンからも動く:
 
 ```js
-// バージョン固定（推奨・immutable）
+// バージョン固定（immutable, 長期キャッシュ）
 import { Drawer, Figure, drawMode } from
-  "https://cdn.jsdelivr.net/gh/nkmr-lab/average-figure-drawer-js@v0.1.0/src/index.js";
-
-// 最新の main を追う場合
-import { Figure } from
-  "https://cdn.jsdelivr.net/gh/nkmr-lab/average-figure-drawer-js@main/src/index.js";
+  "https://cdn.nkmr.io/average-figure-drawer-js/v0.1.0/src/index.js";
 ```
 
 import map を使えば、消費側のコードをパッケージ名で書ける:
@@ -63,7 +60,7 @@ import map を使えば、消費側のコードをパッケージ名で書ける
 {
   "imports": {
     "average-figure-drawer-js":
-      "https://cdn.jsdelivr.net/gh/nkmr-lab/average-figure-drawer-js@v0.1.0/src/index.js"
+      "https://cdn.nkmr.io/average-figure-drawer-js/v0.1.0/src/index.js"
   }
 }
 </script>
@@ -72,8 +69,14 @@ import map を使えば、消費側のコードをパッケージ名で書ける
 </script>
 ```
 
-新バージョンを出すときは `package.json` の version を上げ、同名の git タグ（例 `v0.1.1`）を
-push すれば、その `@v0.1.1` URL が即使える。
+### 新バージョンの配信手順（npm 不要）
+
+1. `package.json` の version を上げ、`git tag vX.Y.Z && git push origin vX.Y.Z`
+2. ローカルで `git archive --prefix=average-figure-drawer-js/vX.Y.Z/ vX.Y.Z -o dist.tar`
+3. `scp dist.tar home2.nkmr.io:/tmp/` → home2 で `sudo tar -C /var/www/cdn -xf /tmp/dist.tar`
+   （`sudo restorecon -R /var/www/cdn` で SELinux ラベル修復）
+
+古い `vX.Y.Z/` はそのまま残す（URL 固定・immutable なので上書きしない）。
 
 ## 公開 API
 
