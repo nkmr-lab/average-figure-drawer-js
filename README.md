@@ -41,6 +41,40 @@ npx serve .    # もしくは python -m http.server など
 # → http://localhost:XXXX/example/
 ```
 
+## CDN から使う（jsDelivr, ビルド/インストール不要）
+
+public リポジトリなので、GitHub のタグを jsDelivr がそのまま配信する。
+CORS・MIME・HTTP/2・キャッシュは jsDelivr 任せで、`import` するだけ:
+
+```js
+// バージョン固定（推奨・immutable）
+import { Drawer, Figure, drawMode } from
+  "https://cdn.jsdelivr.net/gh/nkmr-lab/average-figure-drawer-js@v0.1.0/src/index.js";
+
+// 最新の main を追う場合
+import { Figure } from
+  "https://cdn.jsdelivr.net/gh/nkmr-lab/average-figure-drawer-js@main/src/index.js";
+```
+
+import map を使えば、消費側のコードをパッケージ名で書ける:
+
+```html
+<script type="importmap">
+{
+  "imports": {
+    "average-figure-drawer-js":
+      "https://cdn.jsdelivr.net/gh/nkmr-lab/average-figure-drawer-js@v0.1.0/src/index.js"
+  }
+}
+</script>
+<script type="module">
+  import { Figure } from "average-figure-drawer-js";
+</script>
+```
+
+新バージョンを出すときは `package.json` の version を上げ、同名の git タグ（例 `v0.1.1`）を
+push すれば、その `@v0.1.1` URL が即使える。
+
 ## 公開 API
 
 `src/index.js` から以下を export（本家と同じ）:
